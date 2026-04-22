@@ -1,16 +1,13 @@
-<div align="center" style="position: relative; max-width: 900px; margin: auto;">
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=17&duration=2800&pause=1200&color=00FF41&center=true&vCenter=true&width=540&lines=%24+whoami+%3E+Rehan+Khan;Cybersecurity+Enthusiast+%7C+Ethical+Hacker;Full-Stack+Developer+%7C+CTF+Player;Penetration+Tester+in+the+making...;Always+hacking%2C+always+learning+%F0%9F%94%90" alt="Typing SVG"/>
+</p>
 
-<img src="https://github.com/dev-rehaann/dev-rehaann/blob/main/assests/banner.PNG" 
-    alt="banner" 
-    style="width: 100%; height: 220px; object-fit: cover; border-radius: 10px;" />
-
-<img src="https://github.com/dev-rehaann/dev-rehaann/blob/main/assests/pfp.png" 
-    alt="profile" 
-    width="120" 
-    style="border-radius: 50%; border: 4px solid #0d1117; position: absolute; top: 140px; left: 30px;" />
-
-</div>
-
+<img
+  src="https://github.com/dev-rehaann/dev-rehaann/blob/main/assests/spiderman.png"
+  align="right"
+  width="130"
+  alt="🕷️ spiderman"
+/>
 
 
 <details>
