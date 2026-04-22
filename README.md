@@ -1,13 +1,18 @@
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=17&duration=2800&pause=1200&color=00FF41&center=true&vCenter=true&width=540&lines=%24+whoami+%3E+Rehan+Khan;Cybersecurity+Enthusiast+%7C+Ethical+Hacker;Full-Stack+Developer+%7C+CTF+Player;Penetration+Tester+in+the+making...;Always+hacking%2C+always+learning+%F0%9F%94%90" alt="Typing SVG"/>
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=17&duration=2800&pause=1200&color=00FF41&center=true&vCenter=true&width=540&lines=%24+whoami+%3E+Rehan+Khan;Cybersecurity+Enthusiast;Student+of+Digital+Forensics;CTF+Participant;Always+Learning..." alt="Typing SVG"/>
 </p>
 
-<img
-  src="https://github.com/dev-rehaann/dev-rehaann/blob/main/assests/spiderman.png"
-  align="right"
-  width="130"
-  alt="🕷️ spiderman"
-/>
+
+<div align="right" style="position: relative; margin-top: 100px;">
+
+  <!-- Spider Image -->
+  <img src="https://github.com/dev-rehaann/dev-rehaann/blob/main/assests/spiderman.png"
+       width="250"
+       style="
+         display: block;
+       " />
+
+</div>
 
 
 <details>
