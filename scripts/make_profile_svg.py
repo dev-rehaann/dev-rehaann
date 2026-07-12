@@ -117,8 +117,8 @@ def render(theme):
                f'{{<tspan class="key">Contributed</tspan>: <tspan class="value">{contributed}</tspan>}} | '
                f'<tspan class="key">Stars</tspan>:<tspan class="cc">{leader("Stars", stars, 26)}</tspan><tspan class="value">{stars}</tspan>')
     out.append(f'<tspan x="390" y="410" class="cc">. </tspan><tspan class="key">Commits</tspan>:'
-               f'<tspan class="cc">{leader("Commits", commits, 28)}</tspan><tspan class="value">{commits}</tspan> | '
-               f'<tspan class="key">Followers</tspan>:<tspan class="cc">{leader("Followers", followers, 28)}</tspan><tspan class="value">{followers}</tspan>')
+               f'<tspan class="cc">{leader("Commits", commits, 30)}</tspan><tspan class="value">{commits}</tspan> | '
+               f'<tspan class="key">Followers</tspan>:<tspan class="cc">{leader("Followers", followers, 26)}</tspan><tspan class="value">{followers}</tspan>')
     loc, added, removed = number("loc"), number("loc_added"), number("loc_removed")
     out.append(f'<tspan x="390" y="430" class="cc">. </tspan><tspan class="key">Lines of Code on GitHub</tspan>:'
                f'<tspan class="cc">{leader("Lines of Code on GitHub", loc, 38)}</tspan><tspan class="value">{loc}</tspan> ( '
