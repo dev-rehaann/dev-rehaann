@@ -3,11 +3,28 @@
 import html
 import json
 import sys
+from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ASCII_PATH = ROOT / "asci art updated.txt"
 DATA_PATH = ROOT / "data" / "contributions.json"
+BIRTH_DATE = date(2006, 8, 5)
+
+
+def uptime(today=None):
+    """Return calendar-accurate age in years, months and days."""
+    today = today or date.today()
+    total_months = (today.year - BIRTH_DATE.year) * 12 + today.month - BIRTH_DATE.month
+    if today.day < BIRTH_DATE.day:
+        total_months -= 1
+    years, months = divmod(total_months, 12)
+    anchor_month = BIRTH_DATE.month + total_months
+    anchor_year = BIRTH_DATE.year + (anchor_month - 1) // 12
+    anchor_month = (anchor_month - 1) % 12 + 1
+    anchor = date(anchor_year, anchor_month, BIRTH_DATE.day)
+    days = (today - anchor).days
+    return f"{years} years, {months} months, {days} days"
 
 
 def ascii_rows():
@@ -67,6 +84,7 @@ def render(theme):
     out.append(f'<text x="{x}" y="{y}" fill="{text}" font-size="17" font-weight="700">rehan@github</text>')
     y += 30
     row("Name", "Rehan Khan")
+    row("Uptime", uptime())
     row("Education", "Final-year BS Computer Science")
     row("Role", "IEEE Computer Society Chair (Student Body)")
     row("Interests", "Cybersecurity | Digital Forensics")
