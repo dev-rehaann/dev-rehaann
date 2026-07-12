@@ -34,9 +34,8 @@ def compact_ascii(cols=45, rows=25):
     left = min(len(line) - len(line.lstrip(" ")) for line in raw if line.strip())
     right = max(len(line) for line in raw if line.strip())
     grid = [line[left:right].ljust(right - left) for line in raw]
-    # Face-focused crop: exclude the oversized torso and background before
-    # reducing to Andrew's compact 45x25 portrait pane.
-    grid = [line[15:135].ljust(120) for line in grid[10:62]]
+    # Use the earlier full compact portrait crop on the left.
+    grid = grid[:max(1, round(len(grid) * 0.70))]
     h, w = len(grid), len(grid[0])
     weights = {c: i / (len(RAMP) - 1) for i, c in enumerate(RAMP)}
     weights.update({"`": .12, "_": .28, "c": .62, "s": .68})
@@ -62,45 +61,66 @@ def load_data():
 
 
 def render(theme):
-    c, s = load_data()
+    _, s = load_data()
     dark = theme == "dark"
     bg, text, muted = (("#161b22", "#c9d1d9", "#616e7f") if dark else ("#ffffff", "#24292f", "#6e7781"))
     key, value = (("#ffa657", "#a5d6ff") if dark else ("#953800", "#0550ae"))
     green = "#3fb950" if dark else "#1a7f37"
-    out = [f'<svg xmlns="http://www.w3.org/2000/svg" font-family="Consolas,monospace" width="985" height="530" font-size="16">',
-           '<style>.key{font-weight:700}text,tspan{white-space:pre}</style>',
-           f'<rect width="985" height="530" fill="{bg}" rx="15"/>', f'<text x="15" y="30" fill="{text}">']
+    red = "#f85149" if dark else "#cf222e"
+    out = [f'<svg xmlns="http://www.w3.org/2000/svg" font-family="ConsolasFallback,Consolas,monospace" width="985px" height="530px" font-size="16px">',
+           '<style>@font-face{src:local(\'Consolas\'),local(\'Consolas Bold\');font-family:\'ConsolasFallback\';font-display:swap;-webkit-size-adjust:109%;size-adjust:109%}'
+           f'.key{{fill:{key}}}.value{{fill:{value}}}.addColor{{fill:{green}}}.delColor{{fill:{red}}}.cc{{fill:{muted}}}text,tspan{{white-space:pre}}</style>',
+           f'<rect width="985px" height="530px" fill="{bg}" rx="15"/>', f'<text x="15" y="30" fill="{text}" class="ascii">']
     for i, row_text in enumerate(compact_ascii()):
         out.append(f'<tspan x="15" y="{30 + i * 20}">{html.escape(row_text)}</tspan>')
     out.append('</text>')
 
-    x, y = 390, 30
-    def plain(line, yy=None, size=16):
-        out.append(f'<text x="{x}" y="{yy or y}" fill="{text}" font-size="{size}">{line}</text>')
-    def row(label, val, yy, color=None):
-        plain(f'<tspan fill="{muted}">. </tspan><tspan class="key" fill="{key}">{html.escape(label)}</tspan>: '
-              f'<tspan fill="{color or value}">{html.escape(str(val))}</tspan>', yy)
+    def number(name):
+        value_ = s.get(name, "--")
+        return f"{value_:,}" if isinstance(value_, int) else str(value_)
 
-    plain('rehan@info ------------------------------------------------')
-    row("OS", "Windows 11 | iOS | Linux", 50)
+    def leader(label, val, target=68):
+        count = max(1, target - len(label) - 2 - len(val))
+        return " " + "." * count + " "
+
+    def row(label, val, yy):
+        label_e, val_e = html.escape(label), html.escape(val)
+        out.append(f'<tspan x="390" y="{yy}" class="cc">. </tspan><tspan class="key">{label_e}</tspan>:'
+                   f'<tspan class="cc">{leader(label, val)}</tspan><tspan class="value">{val_e}</tspan>')
+
+    out.append(f'<text x="390" y="30" fill="{text}">')
+    out.append('<tspan x="390" y="30">Rehan.khan@info</tspan> _______________________________________________')
+    row("OS", "Windows 11, iOS 26.5.2, Linux", 50)
     row("Uptime", uptime(), 70)
     row("Host", "Student at Barrett Hodgson University", 90)
     row("IDE", "VS Code 1.127.0", 110)
-    row("Languages", "Java | MySQL | Python | C++ | C | YAML | Bash", 150)
-    row("Security", "Nmap | Wireshark | Metasploit | YARA", 170)
-    row("Hobbies.Software", "Open Source Contribution | Gaming", 210)
-    row("Hobbies.Hardware", "ESP32", 230)
-    plain('- Contact -------------------------------------------------', 270)
-    row("Email", "dev.rehaann@gmail.com", 290)
-    row("Insta", "cpt_.rehan", 310)
-    plain('- GitHub Stats --------------------------------------------', 350)
-    row("My repos", f'{s.get("repos", "—")} (Contribution: {s.get("contributed_repos", "—")}) | Stars: {s.get("stars", "—")}', 370)
-    row("Commits", f'{s.get("commits_total", "—")} | Followers: {s.get("followers", "—")}', 390)
-    loc = s.get("loc", "—")
-    added = s.get("loc_added", "—")
-    removed = s.get("loc_removed", "—")
-    row("Lines of code on GitHub", f'{loc} ({added}++, {removed}--)', 410, green)
-    out.append('</svg>')
+    out.append('<tspan x="390" y="130" class="cc">. </tspan>')
+    row("Languages", "Java, MySQL, Python, C++, C, YAML, Bash", 150)
+    row("Activities", "CTFs, TryHackMe, PortSwigger Labs, Open Source", 170)
+    row("Security", "Nmap, Wireshark, Metasploit, YARA", 190)
+    out.append('<tspan x="390" y="210" class="cc">. </tspan>')
+    row("Hobbies.Software", "Open Source Contribution, Gaming", 230)
+    row("Hobbies.Hardware", "ESP32", 250)
+    out.append('<tspan x="390" y="270" class="cc">. </tspan>')
+    out.append('<tspan x="390" y="290">- Contact</tspan> ______________________________________________')
+    row("Email", "dev.rehaann@gmail.com", 310)
+    row("Insta", "cpt_.rehan", 330)
+    out.append('<tspan x="390" y="350" class="cc">. </tspan>')
+    out.append('<tspan x="390" y="370">- GitHub Stats</tspan> _________________________________________')
+    repos, contributed, stars = number("repos"), number("contributed_repos"), number("stars")
+    commits, followers = number("commits_total"), number("followers")
+    out.append(f'<tspan x="390" y="390" class="cc">. </tspan><tspan class="key">Repos</tspan>:'
+               f'<tspan class="cc">{leader("Repos", repos, 13)}</tspan><tspan class="value">{repos}</tspan> '
+               f'{{<tspan class="key">Contributed</tspan>: <tspan class="value">{contributed}</tspan>}} | '
+               f'<tspan class="key">Stars</tspan>:<tspan class="cc">{leader("Stars", stars, 17)}</tspan><tspan class="value">{stars}</tspan>')
+    out.append(f'<tspan x="390" y="410" class="cc">. </tspan><tspan class="key">Commits</tspan>:'
+               f'<tspan class="cc">{leader("Commits", commits, 28)}</tspan><tspan class="value">{commits}</tspan> | '
+               f'<tspan class="key">Followers</tspan>:<tspan class="cc">{leader("Followers", followers, 20)}</tspan><tspan class="value">{followers}</tspan>')
+    loc, added, removed = number("loc"), number("loc_added"), number("loc_removed")
+    out.append(f'<tspan x="390" y="430" class="cc">. </tspan><tspan class="key">Lines of Code on GitHub</tspan>:'
+               f'<tspan class="cc">{leader("Lines of Code on GitHub", loc, 35)}</tspan><tspan class="value">{loc}</tspan> ( '
+               f'<tspan class="addColor">{added}++</tspan>, <tspan class="delColor">{removed}--</tspan> )')
+    out.append('</text></svg>')
     return "".join(out)
 
 
