@@ -14,11 +14,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "..", "info-card.svg")
 STATIC = bool(os.environ.get("STATIC"))
 
-W, H = 480, 376
+W, H = 520, 530
 PAD = 20
 TITLEBAR_H = 30
 KEY_X = PAD
-VAL_X = PAD + 92
+VAL_X = PAD + 118
 LINE_H = 20.5
 
 BG = "#0d1117"
@@ -47,21 +47,29 @@ HOST = "rehaann"   # shown as  rehaann@github  in the header
 
 ROWS = [
     ("host",),
-    ("kv", "Now", "Cybersecurity + CS Undergrad"),
-    ("kv", "Role", "President, IEEE Student Chapter"),
-    ("kv", "Focus", "Blue-team / SOC tooling -- Karachi, PK"),
+    ("kv", "OS", "Windows 11, iOS 18, Linux"),
+    ("kv", "Uptime", "19 years, 11 months, 7 days"),
+    ("kv", "Host", "IEEE Computer Society -- Student Chapter"),
+    ("kv", "Kernel", "SOC (Security Operations Center) Operator"),
+    ("kv", "IDE", "VS Code, PyCharm"),
     ("gap",),
-    ("sec", "Stack"),
-    ("kv", "SOC/DFIR", "SIEM, log analysis, threat hunting"),
-    ("kv", "Automation", "n8n, Docker, Python"),
-    ("kv", "Recon", "OSINT, network scanning"),
-    ("kv", "Tools", "TryHackMe, Linux, Git"),
+    ("sec", "Languages"),
+    ("kv", "Programming", "Python, C++, JavaScript"),
+    ("kv", "Computer", "Bash, SQL, YAML"),
+    ("kv", "Real", "English, Urdu"),
     ("gap",),
-    ("sec", "Highlights"),
-    ("bul", "Mini-SOC-Lab -- home-built SOC environment"),
-    ("bul", "Project Heimdall -- defensive monitoring toolkit"),
-    ("bul", "ThreatNet -- threat intel aggregation"),
-    ("bul", "RECON-01 -- recon automation pipeline"),
+    ("sec", "Hobbies"),
+    ("kv", "Software", "CTFs, TryHackMe, Open Source"),
+    ("kv", "Hardware", "Home-lab SOC builds, VMs"),
+    ("gap",),
+    ("sec", "Contact"),
+    ("kv", "Email", "dev.rehaann@gmail.com"),
+    ("kv", "LinkedIn", "rehan-khan-606242404"),
+    ("gap",),
+    ("sec", "GitHub Stats"),
+    ("kv", "Repos", "12  |  Stars: 3"),
+    ("kv", "Contributions", "98 (past year)"),
+    ("kv", "Streak", "Longest: 6 days"),
 ]
 
 
