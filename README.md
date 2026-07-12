@@ -1,6 +1,10 @@
 <div align="center">
 
-<img src="./rehan-ascii.svg" width="100%" alt="Animated ASCII portrait of Rehan Khan" />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./dark_mode.svg">
+  <source media="(prefers-color-scheme: light)" srcset="./light_mode.svg">
+  <img src="./dark_mode.svg" width="100%" alt="Rehan Khan profile overview with ASCII portrait">
+</picture>
 
 # Rehan Khan
 
