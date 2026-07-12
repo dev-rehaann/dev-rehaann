@@ -1,6 +1,10 @@
 {
   "repos": 12,
   "stars": 30,
-  "commits_year": 83,
-  "followers": 5
+  "contributed_repos": 8,
+  "commits_total": 81,
+  "followers": 5,
+  "loc": 22767,
+  "loc_added": 24753,
+  "loc_removed": 1986
 }
