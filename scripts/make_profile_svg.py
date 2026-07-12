@@ -31,11 +31,13 @@ def compact_ascii(cols=45, rows=25):
     raw = raw[min(used):max(used) + 1]
     # The supplied export includes a low-contrast background/floor tail. Keep
     # the portrait region so the 45x25 card crop reads like Andrew's headshot.
-    raw = raw[:max(1, round(len(raw) * 0.70))]
     left = min(len(line) - len(line.lstrip(" ")) for line in raw if line.strip())
     right = max(len(line) for line in raw if line.strip())
     grid = [line[left:right].ljust(right - left) for line in raw]
-    h, w = len(grid), right - left
+    # Face-focused crop: exclude the oversized torso and background before
+    # reducing to Andrew's compact 45x25 portrait pane.
+    grid = [line[15:135].ljust(120) for line in grid[10:62]]
+    h, w = len(grid), len(grid[0])
     weights = {c: i / (len(RAMP) - 1) for i, c in enumerate(RAMP)}
     weights.update({"`": .12, "_": .28, "c": .62, "s": .68})
     result = []
@@ -79,27 +81,25 @@ def render(theme):
         plain(f'<tspan fill="{muted}">. </tspan><tspan class="key" fill="{key}">{html.escape(label)}</tspan>: '
               f'<tspan fill="{color or value}">{html.escape(str(val))}</tspan>', yy)
 
-    plain('rehan@khan ------------------------------------------------')
-    row("Uptime", uptime(), 50)
-    row("Education", "Final-year BS Computer Science", 70)
-    row("Role", "IEEE Computer Society Chair (Student Body)", 90)
-    row("IDE", "VS Code (general) | PyCharm (Python)", 110)
-    row("Skills.Programming", "Python | C++ | JavaScript", 150)
-    row("Skills.Computer", "Bash | SQL | YAML", 170)
-    row("Skills.Security", "Cybersecurity | Digital Forensics", 190)
-    row("Activities", "CTFs | THM | PortSwigger Labs | Open Source", 210)
-    plain('- Profiles ------------------------------------------------', 250)
-    row("Portfolio", "devrehaann.vercel.app", 270)
-    row("LinkedIn", "rehan-khan-606242404", 290)
-    row("Instagram", "cpt_.rehan", 310)
-    row("X", "dev_rehann", 330)
-    row("TryHackMe", "gtavep18", 350)
-    plain('- GitHub Stats --------------------------------------------', 390)
-    row("Repos", f'{s.get("repos", "—")} | Stars: {s.get("stars", "—")}', 410)
-    row("Commits (year)", s.get("commits_year", "—"), 430)
-    row("Followers", s.get("followers", "—"), 450)
-    row("Contributions", f'{c["total_contributions"]} | Streak: {c["current_streak"]["length"]} days', 470, green)
-    row("Best day", f'{c["best_day"]["count"]} on {c["best_day"]["date"]}', 490)
+    plain('rehan@info ------------------------------------------------')
+    row("OS", "Windows 11 | iOS | Linux", 50)
+    row("Uptime", uptime(), 70)
+    row("Host", "Student at Barrett Hodgson University", 90)
+    row("IDE", "VS Code 1.127.0", 110)
+    row("Languages", "Java | MySQL | Python | C++ | C | YAML | Bash", 150)
+    row("Security", "Nmap | Wireshark | Metasploit | YARA", 170)
+    row("Hobbies.Software", "Open Source Contribution | Gaming", 210)
+    row("Hobbies.Hardware", "ESP32", 230)
+    plain('- Contact -------------------------------------------------', 270)
+    row("Email", "dev.rehaann@gmail.com", 290)
+    row("Insta", "cpt_.rehan", 310)
+    plain('- GitHub Stats --------------------------------------------', 350)
+    row("My repos", f'{s.get("repos", "—")} (Contribution: {s.get("contributed_repos", "—")}) | Stars: {s.get("stars", "—")}', 370)
+    row("Commits", f'{s.get("commits_total", "—")} | Followers: {s.get("followers", "—")}', 390)
+    loc = s.get("loc", "—")
+    added = s.get("loc_added", "—")
+    removed = s.get("loc_removed", "—")
+    row("Lines of code on GitHub", f'{loc} ({added}++, {removed}--)', 410, green)
     out.append('</svg>')
     return "".join(out)
 

@@ -1,6 +1,12 @@
 name: Update profile art
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/make_profile_svg.py"
+      - "scripts/fetch_profile_stats.py"
+      - ".github/workflows/update-profile-art.yml"
   schedule:
     - cron: "0 6 * * *"   # daily 06:00 UTC
   workflow_dispatch: {}
