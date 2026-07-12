@@ -79,7 +79,7 @@ def render(theme):
         value_ = s.get(name, "--")
         return f"{value_:,}" if isinstance(value_, int) else str(value_)
 
-    def leader(label, val, target=68):
+    def leader(label, val, target=59):
         count = max(1, target - len(label) - 2 - len(val))
         return " " + "." * count + " "
 
@@ -88,7 +88,10 @@ def render(theme):
         out.append(f'<tspan x="390" y="{yy}" class="cc">. </tspan><tspan class="key">{label_e}</tspan>:'
                    f'<tspan class="cc">{leader(label, val)}</tspan><tspan class="value">{val_e}</tspan>')
 
-    out.append(f'<text x="390" y="30" fill="{text}">')
+    # The information pane has 595 px available. Andrew's 16 px rows only fit
+    # about 62 characters there; our longer values need a compact 14 px face
+    # to remain fully inside the card without changing the card dimensions.
+    out.append(f'<text x="390" y="30" fill="{text}" font-size="14px">')
     out.append('<tspan x="390" y="30">Rehan.khan@info</tspan> _______________________________________________')
     row("OS", "Windows 11, iOS 26.5.2, Linux", 50)
     row("Uptime", uptime(), 70)
