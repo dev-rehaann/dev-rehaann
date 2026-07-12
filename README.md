@@ -1,23 +1,29 @@
-<p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=17&duration=2800&pause=1200&color=00FF41&center=true&vCenter=true&width=540&lines=%24+whoami+%3E+Rehan+Khan;Cybersecurity+Enthusiast;Student+of+Digital+Forensics;CTF+Participant;Always+Learning..." alt="Typing SVG"/>
-</p>
+<!--
+  This is your PROFILE README. It goes in a repo named exactly after your
+  username (e.g. github.com/OCTOCAT/OCTOCAT) so GitHub shows it on your profile.
+  Replace the ALL-CAPS placeholders. Widths 370/490 keep the portrait and info
+  card the same height -- if you change the info card's H, re-match these.
+-->
+<div align="center">
 
+<table>
+<tr>
+<td valign="top"><img src="./avi-ascii.svg" width="370" alt="ASCII portrait" /></td>
+<td valign="top"><img src="./info-card.svg" width="490" alt="Experience, stack, highlights" /></td>
+</tr>
+</table>
 
-<div align="right" style="position: relative; margin-top: 100px;">
+## Reha
 
-  <!-- Spider Image -->
-  <img src="https://github.com/dev-rehaann/dev-rehaann/blob/main/assests/spiderman.png"
-       width="250"
-       style="
-         display: block;
-       " />
+**CS Undergrad · IEEE Computer Society President (Student Body) · Domain: Cybersecurity & Digital Forensics**
+
+[![Portfolio](https://img.shields.io/badge/Portfolio-devrehaann.vercel.app-0d1117?style=for-the-badge&logo=vercel&logoColor=white)](https://devrehaann.vercel.app)
+[![X](https://img.shields.io/badge/X-dev__rehann-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/dev_rehann)
+[![TryHackMe](https://img.shields.io/badge/TryHackMe-Profile-212C42?style=for-the-badge&logo=tryhackme&logoColor=white)](https://tryhackme.com/p/gtavep18)
+
+<br>
+
+<!-- animated contribution graph, refreshed daily by the workflow -->
+<img src="./contrib-heatmap.svg" width="860" alt="GitHub contribution graph" />
 
 </div>
-
-
-<details>
-  <summary>Github Stats ⚡</summary>
-  
-  <a href="#">![Github stats](https://github-readme-stats.vercel.app/api?username=dev-rehaann&theme=blueberry&count_private=true&hide_border=true&line_height=20)</a>
-  <a href="#">![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=dev-rehaann&layout=compact&theme=blueberry&count_private=true&hide_border=true)</a>
-</details>
