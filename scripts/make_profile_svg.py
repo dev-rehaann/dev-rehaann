@@ -105,11 +105,11 @@ def render(theme):
     row("Hobbies.Software", "Open Source Contribution, Gaming", 230)
     row("Hobbies.Hardware", "ESP32", 250)
     out.append('<tspan x="390" y="270" class="cc">. </tspan>')
-    out.append('<tspan x="390" y="290">- Contact</tspan> ______________________________________________')
+    out.append('<tspan x="390" y="290">- Contact</tspan> _____________________________________________________')
     row("Email", "dev.rehaann@gmail.com", 310)
     row("Insta", "cpt_.rehan", 330)
     out.append('<tspan x="390" y="350" class="cc">. </tspan>')
-    out.append('<tspan x="390" y="370">- GitHub Stats</tspan> _________________________________________')
+    out.append('<tspan x="390" y="370">- GitHub Stats</tspan> ________________________________________________')
     repos, contributed, stars = number("repos"), number("contributed_repos"), number("stars")
     commits, followers = number("commits_total"), number("followers")
     out.append(f'<tspan x="390" y="390" class="cc">. </tspan><tspan class="key">Repos</tspan>:'
