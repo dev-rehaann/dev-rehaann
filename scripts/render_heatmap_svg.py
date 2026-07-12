@@ -125,7 +125,7 @@ def render(data):
     for i, dotcol in enumerate(["#ff5f56", "#ffbd2e", "#27c93f"]):
         parts.append(f'<circle cx="{PAD + i*16}" cy="{TITLEBAR_H/2}" r="5" fill="{dotcol}"/>')
     parts.append(f'<text x="{canvas_w/2}" y="{TITLEBAR_H/2 + 4}" fill="{MUTED}" font-size="12" '
-                 f'text-anchor="middle">avi@github: ~/contributions --graph</text>')
+                 f'text-anchor="middle">rehan@github: ~/contributions --graph</text>')
 
     grid_top = TITLEBAR_H + TOP_LABEL_H
     grid_left = PAD + LEFT_LABEL_W
@@ -195,6 +195,9 @@ def render(data):
 if __name__ == "__main__":
     data = json.load(open(IN_PATH))
     svg = render(data)
-    with open(OUT_PATH, "w") as f:
-        f.write(svg)
-    print(f"wrote {OUT_PATH} ({len(svg)} bytes)")
+    if os.environ.get("SVG_STDOUT"):
+        print(svg, end="")
+    else:
+        with open(OUT_PATH, "w", encoding="utf-8") as f:
+            f.write(svg)
+        print(f"wrote {OUT_PATH} ({len(svg)} bytes)")

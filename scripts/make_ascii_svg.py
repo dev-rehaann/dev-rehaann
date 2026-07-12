@@ -21,7 +21,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 # defaults to the prepped grayscale image (see prep_photo.py), which already has
 # the background removed + local contrast applied.
 SRC = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "..", "source-prepped.png")
-OUT = sys.argv[2] if len(sys.argv) > 2 else os.path.join(HERE, "..", "avi-ascii.svg")
+OUT = sys.argv[2] if len(sys.argv) > 2 else os.path.join(HERE, "..", "rehan-ascii.svg")
+RAW_ART = SRC.lower().endswith(".txt")  # pre-made ascii art -> skip the photo pipeline
 
 COLS = 100
 ROWS = 53
@@ -40,11 +41,6 @@ WHITE_FLOOR = 0.80    # luminance above this is forced to blank (space)
 PAD = 20
 TITLEBAR_H = 30
 STATUS_H = 30
-ART_W = COLS * CELL_W
-ART_H = ROWS * CELL_H
-CANVAS_W = ART_W + PAD * 2
-CANVAS_H = TITLEBAR_H + ART_H + STATUS_H + PAD
-
 BG = "#0d1117"
 BG2 = "#111722"
 FRAME = "#30363d"
@@ -56,30 +52,56 @@ CURSOR = "#c9d1d9"
 ROW_DUR = 0.11
 STAGGER = 0.11       # == ROW_DUR -> a single cursor sweeping down
 
-# ---- 1. sample the image into a COLS x ROWS grayscale grid ----------------
-im = Image.open(SRC).convert("L")               # grayscale
-if SHARPEN:
-    im = im.filter(ImageFilter.UnsharpMask(radius=2, percent=140, threshold=2))
-im = ImageEnhance.Brightness(im).enhance(BRIGHTNESS)
-im = ImageEnhance.Contrast(im).enhance(CONTRAST)
-im = im.resize((COLS, ROWS), Image.LANCZOS)
-px = im.load()
-
 STATIC = bool(os.environ.get("STATIC"))  # emit frozen state for previews
 
-rows_txt = []
-for y in range(ROWS):
-    chars = []
-    for x in range(COLS):
-        lum = px[x, y] / 255.0
-        lum = pow(lum, GAMMA)
-        if lum >= WHITE_FLOOR:
-            chars.append(" ")
-            continue
-        idx = int((1.0 - lum) * (len(RAMP) - 1) + 0.5)
-        idx = max(0, min(len(RAMP) - 1, idx))
-        chars.append(RAMP[idx])
-    rows_txt.append("".join(chars))
+# ---- 1. get a COLS x ROWS character grid, either from a photo or from a
+#         pre-made ascii-art .txt file (cropped to its content bounding box,
+#         padded to a rectangle so every row renders the same pixel width) ---
+if RAW_ART:
+    with open(SRC, "r", encoding="utf-8", errors="replace") as f:
+        raw_lines = [l.rstrip("\n").rstrip("\r") for l in f.readlines()]
+    raw_lines = [l.rstrip() for l in raw_lines]
+    nonblank = [i for i, l in enumerate(raw_lines) if l.strip()]
+    r0, r1 = min(nonblank), max(nonblank)
+    min_col = min(len(l) - len(l.lstrip(" ")) for l in raw_lines if l.strip())
+    max_col = max(len(l) for l in raw_lines if l.strip())
+    cropped = [l[min_col:max_col] for l in raw_lines[r0:r1 + 1]]
+    width = max(len(l) for l in cropped)
+    rows_txt = [l.ljust(width) for l in cropped]
+    COLS = width
+    ROWS = len(rows_txt)
+else:
+    im = Image.open(SRC).convert("L")               # grayscale
+    if SHARPEN:
+        im = im.filter(ImageFilter.UnsharpMask(radius=2, percent=140, threshold=2))
+    im = ImageEnhance.Brightness(im).enhance(BRIGHTNESS)
+    im = ImageEnhance.Contrast(im).enhance(CONTRAST)
+    im = im.resize((COLS, ROWS), Image.LANCZOS)
+    px = im.load()
+
+    rows_txt = []
+    for y in range(ROWS):
+        chars = []
+        for x in range(COLS):
+            lum = px[x, y] / 255.0
+            lum = pow(lum, GAMMA)
+            if lum >= WHITE_FLOOR:
+                chars.append(" ")
+                continue
+            idx = int((1.0 - lum) * (len(RAMP) - 1) + 0.5)
+            idx = max(0, min(len(RAMP) - 1, idx))
+            chars.append(RAMP[idx])
+        rows_txt.append("".join(chars))
+
+ART_W = COLS * CELL_W
+ART_H = ROWS * CELL_H
+CANVAS_W = ART_W + PAD * 2
+CANVAS_H = TITLEBAR_H + ART_H + STATUS_H + PAD
+
+TOTAL_REVEAL_CAP = 6.0  # seconds; shrink stagger for tall grids so it doesn't crawl
+if ROWS * STAGGER > TOTAL_REVEAL_CAP:
+    STAGGER = TOTAL_REVEAL_CAP / ROWS
+    ROW_DUR = STAGGER
 
 art_top = TITLEBAR_H + PAD * 0.35
 
@@ -103,7 +125,7 @@ parts.append(f'<line x1="0" y1="{TITLEBAR_H}" x2="{CANVAS_W}" y2="{TITLEBAR_H}" 
 for i, dotcol in enumerate(["#ff5f56", "#ffbd2e", "#27c93f"]):
     parts.append(f'<circle cx="{PAD + i*16}" cy="{TITLEBAR_H/2}" r="5" fill="{dotcol}"/>')
 parts.append(f'<text x="{CANVAS_W/2}" y="{TITLEBAR_H/2 + 4}" fill="{TITLE_TEXT}" font-size="12" '
-             f'text-anchor="middle">avi@github: ~$ ./portrait.sh</text>')
+             f'text-anchor="middle">rehan@github: ~$ ./portrait.sh</text>')
 
 # one <text> per row (single color -> no per-char markup, tiny file)
 font_size = CELL_H * 0.86
@@ -145,6 +167,9 @@ parts.append(f'<rect x="{PAD+196}" y="{status_y-12:.1f}" width="8" height="14" f
 
 parts.append("</svg>")
 svg = "".join(parts)
-with open(OUT, "w") as f:
-    f.write(svg)
-print("wrote", OUT, len(svg), "bytes;", CANVAS_W, "x", CANVAS_H)
+if OUT == "-":
+    print(svg, end="")
+else:
+    with open(OUT, "w", encoding="utf-8") as f:
+        f.write(svg)
+    print("wrote", OUT, len(svg), "bytes;", CANVAS_W, "x", CANVAS_H)
