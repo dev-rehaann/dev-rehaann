@@ -1,17 +1,17 @@
 {
   "username": "dev-rehaann",
-  "generated_at": "2026-08-01T08:10:22Z",
+  "generated_at": "2026-08-02T08:11:46Z",
   "range": {
-    "start": "2025-07-27",
-    "end": "2026-08-01"
+    "start": "2025-08-03",
+    "end": "2026-08-02"
   },
   "total_contributions": 152,
   "active_days": 32,
   "avg_per_active_day": 4.8,
   "current_streak": {
-    "length": 1,
-    "start": "2026-07-31",
-    "end": "2026-07-31"
+    "length": 0,
+    "start": null,
+    "end": null
   },
   "longest_streak": {
     "length": 6,
@@ -23,10 +23,6 @@
     "count": 20
   },
   "monthly": [
-    {
-      "month": "2025-07",
-      "total": 0
-    },
     {
       "month": "2025-08",
       "total": 1
@@ -81,34 +77,6 @@
     }
   ],
   "days": [
-    {
-      "date": "2025-07-27",
-      "count": 0
-    },
-    {
-      "date": "2025-07-28",
-      "count": 0
-    },
-    {
-      "date": "2025-07-29",
-      "count": 0
-    },
-    {
-      "date": "2025-07-30",
-      "count": 0
-    },
-    {
-      "date": "2025-07-31",
-      "count": 0
-    },
-    {
-      "date": "2025-08-01",
-      "count": 0
-    },
-    {
-      "date": "2025-08-02",
-      "count": 0
-    },
     {
       "date": "2025-08-03",
       "count": 0
@@ -1563,6 +1531,10 @@
     },
     {
       "date": "2026-08-01",
+      "count": 0
+    },
+    {
+      "date": "2026-08-02",
       "count": 0
     }
   ]
